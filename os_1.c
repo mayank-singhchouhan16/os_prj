@@ -53,3 +53,50 @@ int main()
   }
   ms(n,rt,time,At);
 }
+void ms(int n,int rt[10],int Time,int At[10])
+{
+float agwait,agtat;
+    int m=n, w_time[10],count[10],tut_t[10],b_t[10],loc,temp,total=0;
+  for(int i=0;i<m;i++)
+    {
+        b_t[i]=rt[i];
+        w_time[i]=Time-At[i]-b_t[i];
+		count[i]=i+1;
+    }
+
+    for(int i=0;i<m;i++)
+    {
+        loc=i;
+        for(int j=i+1;j<m;j++)
+        {
+            if(b_t[j]<b_t[loc])
+            	loc=j;
+        }
+        temp=b_t[i];
+        b_t[i]=b_t[loc];
+        b_t[loc]=temp;
+        temp=count[i];
+        count[i]=count[loc];
+        count[loc]=temp;
+    }
+
+    for(int i=1;i<m;i++)
+    {
+        for(int j=0;j<i;j++)
+        	w_time[i]+=b_t[j];
+        total+=w_time[i];
+    }
+    agwait=(float)total/m;
+    total=0;
+    printf("\nProcess\twaiting time\tTurnaround Time");
+    for(int i=0;i<m;i++)
+    {
+        tut_t[i]=b_t[i]+w_time[i];
+        total=total + tut_t[i];
+        printf("\nP[%d]\t%d\t\t%d\n",count[i],w_time[i],tut_t[i]);
+    }
+    agtat=(float)total/m;
+    printf("\nAverage waiting time = %0.2f",agwait);
+    printf("\nAverage turnaround time = %0.2f",agtat);
+}
+
